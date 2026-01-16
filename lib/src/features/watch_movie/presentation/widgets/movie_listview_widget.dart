@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movie_app/src/core/constants/api_endpoints.dart';
 import 'package:movie_app/src/core/constants/colors.dart';
+import 'package:movie_app/src/core/router/app_route_name.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/bloc/watch_movie_bloc.dart';
+import 'package:movie_app/src/features/watch_movie/presentation/widgets/linear_gradient_widget.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/widgets/loading_widget.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/widgets/shimer_img.dart';
 
@@ -13,6 +16,10 @@ class MovieListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WatchMovieBloc, WatchMovieState>(
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.upcomingMoviesEntity != current.upcomingMoviesEntity,
+
       builder: (context, state) {
         if (state.status == Status.loading) {
           return LoadingWidget();
@@ -33,6 +40,7 @@ class MovieListView extends StatelessWidget {
             final data = state.upcomingMoviesEntity!.movies[index];
             return GestureDetector(
               onTap: () {
+                context.push(AppRouteName.watchMovieDetail);
                 context.read<WatchMovieBloc>().add(
                   GetWatchMovieDetailEvent(movieId: data.id.toString()),
                 );
@@ -49,7 +57,8 @@ class MovieListView extends StatelessWidget {
                     borderRadius: 10.r,
                   ),
 
-                  _LinearGradient(),
+                  // Linear gradient..
+                  LinearGradientWidget(),
                   Positioned(
                     bottom: 20.h,
                     left: 20.w,
@@ -71,33 +80,6 @@ class MovieListView extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _LinearGradient extends StatelessWidget {
-  const _LinearGradient({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-
-      child: Container(
-        height: 70.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-
-            bottomRight: Radius.circular(10.r),
-          ),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColor.kTransparent, AppColor.kBlack],
-          ),
-        ),
-      ),
     );
   }
 }

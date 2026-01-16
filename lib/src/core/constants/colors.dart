@@ -8,4 +8,12 @@ class AppColor {
   static const kBlack202C43 = Color(0xff202C43);
   static const kBlack = Colors.black;
   static const kTransparent = Colors.transparent;
+  static const kBlue61C3F2 = Color(0xff61C3F2);
+  static const kBlue15D2BC = Color(0xff15D2BC);
+  static const kPinkE26CA5 = Color(0xffE26CA5);
+  static const kPurpel564CA3 = Color(0xff564CA3);
+  static const kGoldenCD9D0F = Color(0xffCD9D0F);
+  static const kGray8F8F8F = Color(0xff8F8F8F);
+  static const kWhitF2F2F6 = Color(0xffF2F2F6);
+  static const kWhiteEFEFEF = Color(0xffEFEFEF);
 }

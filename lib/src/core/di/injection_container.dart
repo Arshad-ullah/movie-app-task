@@ -9,6 +9,7 @@ import 'package:movie_app/src/features/watch_movie/data/datasources/movie_remote
 import 'package:movie_app/src/features/watch_movie/data/datasources/movie_remote_datasource_impl.dart';
 import 'package:movie_app/src/features/watch_movie/data/repositories/movie_repo_impl.dart';
 import 'package:movie_app/src/features/watch_movie/domain/repositories/movie_repo.dart';
+import 'package:movie_app/src/features/watch_movie/domain/usecases/get_media_usecase.dart';
 import 'package:movie_app/src/features/watch_movie/domain/usecases/get_movie_detail_usecase.dart';
 import 'package:movie_app/src/features/watch_movie/domain/usecases/get_movie_usecase.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/bloc/watch_movie_bloc.dart';
@@ -16,15 +17,7 @@ import 'package:movie_app/src/features/watch_movie/presentation/bloc/watch_movie
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerLazySingleton<Dio>(() {
-    final dio = Dio(
-      BaseOptions(
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
-      ),
-    );
-    return dio;
-  });
+  sl.registerLazySingleton<Dio>(() => Dio());
 
   // Response and Error handlers
   sl.registerLazySingleton<ResponseHandler>(() => ResponseHandler());
@@ -49,8 +42,14 @@ void _movieInit() {
   sl.registerLazySingleton<MovieRepo>(() => MovieRepoImpl(sl()));
   sl.registerLazySingleton(() => GetMovieUsecase(sl()));
   sl.registerLazySingleton(() => GetMovieDetailUsecase(sl()));
+  sl.registerLazySingleton(() => GetMediaUsecase(sl()));
 
   sl.registerLazySingleton(
-    () => WatchMovieBloc(getMovieUsecase: sl(), getMovieDetailUsecase: sl()),
+    () => WatchMovieBloc(
+      getMovieUsecase: sl(),
+      getMovieDetailUsecase: sl(),
+
+      getMediaUsecase: sl(),
+    ),
   );
 }

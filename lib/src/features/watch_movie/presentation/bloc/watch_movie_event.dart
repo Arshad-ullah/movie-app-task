@@ -16,3 +16,21 @@ class GetWatchMovieDetailEvent extends WatchMovieEvent {
   @override
   List<Object> get props => [movieId];
 }
+
+class GetMediaEvent extends WatchMovieEvent {
+  String movieId;
+
+  GetMediaEvent({required this.movieId});
+  @override
+  List<Object> get props => [movieId];
+}
+
+class SearchButtonClickEvent extends WatchMovieEvent {}
+
+class SearchEvent extends WatchMovieEvent {
+  String queryText;
+
+  SearchEvent(this.queryText);
+  @override
+  List<Object> get props => [queryText];
+}

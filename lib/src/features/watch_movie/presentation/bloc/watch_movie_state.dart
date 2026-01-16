@@ -5,21 +5,43 @@ enum Status { initial, loading, success, error }
 class WatchMovieState extends Equatable {
   final Status status;
   final String message;
+  final int movieId;
+  final bool isSeaching;
+  final bool isDetailPageLoading;
   final UpcomingMoviesEntity? upcomingMoviesEntity;
+  final MovieDetailVideoEntity? movieDetailVideoEntity;
+  final MediaEntity? mediaEntity;
+
   const WatchMovieState({
     this.upcomingMoviesEntity,
+    this.isDetailPageLoading = false,
+    this.movieId = 0,
     this.message = '',
+    this.movieDetailVideoEntity,
+    this.isSeaching = false,
 
+    this.mediaEntity,
     this.status = Status.initial,
   });
 
   WatchMovieState copyWith({
     Status? status,
     String? message,
+    bool? isSeaching,
+    int? movieId,
+    bool? isDetailPageLoading,
+    MediaEntity? mediaEntity,
+    MovieDetailVideoEntity? movieDetailVideoEntity,
     UpcomingMoviesEntity? upcomingMoviesEntity,
   }) {
     return WatchMovieState(
+      isSeaching: isSeaching ?? this.isSeaching,
+      mediaEntity: mediaEntity ?? this.mediaEntity,
       status: status ?? this.status,
+      movieId: movieId ?? this.movieId,
+      isDetailPageLoading: isDetailPageLoading ?? this.isDetailPageLoading,
+      movieDetailVideoEntity:
+          movieDetailVideoEntity ?? this.movieDetailVideoEntity,
       message: message ?? this.message,
       upcomingMoviesEntity: upcomingMoviesEntity ?? this.upcomingMoviesEntity,
     );
@@ -28,5 +50,14 @@ class WatchMovieState extends Equatable {
   WatchMovieState initial() => WatchMovieState();
 
   @override
-  List<Object?> get props => [upcomingMoviesEntity, status, message];
+  List<Object?> get props => [
+    upcomingMoviesEntity,
+    status,
+    message,
+    movieDetailVideoEntity,
+    movieId,
+    mediaEntity,
+    isDetailPageLoading,
+    isSeaching,
+  ];
 }

@@ -1,68 +1,49 @@
-class MovieDetailEntity {
-  final int id;
-  final String title;
-  final String originalTitle;
-  final String overview;
-  final String posterPath;
-  final String backdropPath;
-  final String releaseDate;
-  final double voteAverage;
-  final int voteCount;
-  final bool adult;
-  final bool video;
-  final int runtime;
-  final String originalLanguage;
-  final String status;
-  final String tagline;
-  final String homepage;
-  final double popularity;
-  final List<GenreEntity> genres;
-  final List<ProductionCompanyEntity> productionCompanies;
-  final List<String> productionCountries;
-  final List<String> spokenLanguages;
+import 'package:movie_app/src/features/watch_movie/data/models/movie_detail_model.dart';
 
-  MovieDetailEntity({
-    required this.id,
-    required this.title,
-    required this.originalTitle,
-    required this.overview,
-    required this.posterPath,
-    required this.backdropPath,
-    required this.releaseDate,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.adult,
-    required this.video,
-    required this.runtime,
-    required this.originalLanguage,
-    required this.status,
-    required this.tagline,
-    required this.homepage,
-    required this.popularity,
-    required this.genres,
-    required this.productionCompanies,
-    required this.productionCountries,
-    required this.spokenLanguages,
+class MovieDetailVideoEntity {
+  final int? id;
+  final List<MovieVideoEntity> results;
+
+  const MovieDetailVideoEntity({required this.id, required this.results});
+}
+
+class MovieVideoEntity {
+  final String? iso6391;
+  final String? iso31661;
+  final String? name;
+  final String? key;
+  final String? site;
+  final int? size;
+  final String? type;
+  final bool? official;
+  final DateTime? publishedAt;
+  final String? id;
+
+  const MovieVideoEntity({
+    this.iso6391,
+    this.iso31661,
+    this.name,
+    this.key,
+    this.site,
+    this.size,
+    this.type,
+    this.official,
+    this.publishedAt,
+    this.id,
   });
 }
 
-class GenreEntity {
-  final int id;
-  final String name;
+class MovieDetailVideoModel extends MovieDetailVideoEntity {
+  const MovieDetailVideoModel({required super.id, required super.results});
 
-  GenreEntity({required this.id, required this.name});
-}
-
-class ProductionCompanyEntity {
-  final int id;
-  final String name;
-  final String? logoPath;
-  final String originCountry;
-
-  ProductionCompanyEntity({
-    required this.id,
-    required this.name,
-    this.logoPath,
-    required this.originCountry,
-  });
+  factory MovieDetailVideoModel.fromJson(Map<String, dynamic> json) {
+    return MovieDetailVideoModel(
+      id: json['id'],
+      results: json['results'] != null
+          ? List<MovieVideoModel>.from(
+              json['results'].map((x) => MovieVideoModel.fromJson(x)),
+            )
+          : [],
+    );
+  }
 }

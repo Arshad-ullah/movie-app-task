@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:movie_app/src/core/error/exception.dart';
 import 'package:movie_app/src/core/error/failure.dart';
 import 'package:movie_app/src/features/watch_movie/data/datasources/movie_remote_datasource.dart';
+import 'package:movie_app/src/features/watch_movie/domain/entities/media_entity.dart';
 import 'package:movie_app/src/features/watch_movie/domain/entities/movie_detail_entity.dart';
 import 'package:movie_app/src/features/watch_movie/domain/entities/upcoming_movie_entity.dart';
 import 'package:movie_app/src/features/watch_movie/domain/repositories/movie_repo.dart';
@@ -25,13 +26,26 @@ class MovieRepoImpl implements MovieRepo {
   }
 
   @override
-  Future<Either<Failure, MovieDetailEntity>> getMovieDetail(
+  Future<Either<Failure, MovieDetailVideoEntity>> getMovieDetail(
     String movieId,
   ) async {
     try {
       final model = await movieRemoteDatasource.getMovieDetail(movieId);
-      final entity = model.toEntity();
-      return Right(entity);
+
+      return Right(model);
+    } on AppException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Something went wrong. Please try again.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MediaEntity>> getMedia(String id) async {
+    try {
+      final model = await movieRemoteDatasource.getMedia(id);
+
+      return Right(model.toEntity());
     } on AppException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
