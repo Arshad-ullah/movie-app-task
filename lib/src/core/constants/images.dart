@@ -8,4 +8,10 @@ class AppImage {
   static const listIcon = "$icon/list.svg";
   static const mediaIcon = "$icon/media.svg";
   static const watchIcon = "$icon/watch.svg";
+  static const seatIcon = "$icon/Seat.svg";
+
+  //images..
+
+  static const mapImg = "$img/mp.svg";
+  static const chartImg = "$img/chart.svg";
 }
