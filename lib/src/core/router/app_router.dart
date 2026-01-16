@@ -14,7 +14,7 @@ import 'package:movie_app/src/features/watch_movie/presentation/pages/watch_movi
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: AppRouteName.processToPay,
+    initialLocation: AppRouteName.bottomBar,
     routes: [
       GoRoute(
         path: AppRouteName.bottomBar,

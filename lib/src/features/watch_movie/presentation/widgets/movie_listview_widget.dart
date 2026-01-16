@@ -32,10 +32,6 @@ class MovieListView extends StatelessWidget {
           );
         }
 
-        if (state.upcomingMoviesEntity!.movies.isEmpty) {
-          return _NotfoundWidget();
-        }
-
         // Success state: show movies
         return ListView.separated(
           itemCount: state.upcomingMoviesEntity?.movies.length ?? 0,

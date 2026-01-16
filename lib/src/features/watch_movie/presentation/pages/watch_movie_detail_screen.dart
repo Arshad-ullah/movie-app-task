@@ -165,7 +165,9 @@ class _HeaderWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10), // radius 10
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.push(AppRouteName.selectSeat);
+                },
                 child: Text(
                   'Get Tickets',
                   style: TextStyle(

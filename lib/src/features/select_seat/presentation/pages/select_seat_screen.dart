@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movie_app/main.dart';
 import 'package:movie_app/src/core/constants/colors.dart';
 import 'package:movie_app/src/core/constants/images.dart';
+import 'package:movie_app/src/core/router/app_route_name.dart';
 import 'package:movie_app/src/features/select_seat/presentation/bloc/select_seat_bloc.dart';
 import 'package:movie_app/src/features/select_seat/presentation/pages/select_date_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -65,7 +66,12 @@ class SelectSeatScreen extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
           padding: EdgeInsets.symmetric(horizontal: 26.w),
-          child: CustomButton(onPressed: () {}, text: "Select Seats"),
+          child: CustomButton(
+            onPressed: () {
+              context.push(AppRouteName.processToPay);
+            },
+            text: "Select Seats",
+          ),
         ),
       ),
     );

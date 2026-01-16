@@ -41,6 +41,7 @@ class WatchMovieBloc extends Bloc<WatchMovieEvent, WatchMovieState> {
 
     result.fold(
       (fail) {
+        print("error..${fail.message}");
         emit(state.copyWith(status: Status.error, message: fail.message));
       },
       (success) {
