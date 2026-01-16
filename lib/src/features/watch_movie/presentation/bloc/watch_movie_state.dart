@@ -9,6 +9,7 @@ class WatchMovieState extends Equatable {
   final bool isSeaching;
   final bool isDetailPageLoading;
   final UpcomingMoviesEntity? upcomingMoviesEntity;
+  final UpcomingMoviesEntity? upcomingMoviesEntityCopy;
   final MovieDetailVideoEntity? movieDetailVideoEntity;
   final MediaEntity? mediaEntity;
 
@@ -19,7 +20,7 @@ class WatchMovieState extends Equatable {
     this.message = '',
     this.movieDetailVideoEntity,
     this.isSeaching = false,
-
+    this.upcomingMoviesEntityCopy,
     this.mediaEntity,
     this.status = Status.initial,
   });
@@ -31,8 +32,10 @@ class WatchMovieState extends Equatable {
     int? movieId,
     bool? isDetailPageLoading,
     MediaEntity? mediaEntity,
+
     MovieDetailVideoEntity? movieDetailVideoEntity,
     UpcomingMoviesEntity? upcomingMoviesEntity,
+    UpcomingMoviesEntity? upcomingMoviesEntityCopy,
   }) {
     return WatchMovieState(
       isSeaching: isSeaching ?? this.isSeaching,
@@ -44,6 +47,8 @@ class WatchMovieState extends Equatable {
           movieDetailVideoEntity ?? this.movieDetailVideoEntity,
       message: message ?? this.message,
       upcomingMoviesEntity: upcomingMoviesEntity ?? this.upcomingMoviesEntity,
+      upcomingMoviesEntityCopy:
+          upcomingMoviesEntityCopy ?? this.upcomingMoviesEntityCopy,
     );
   }
 
@@ -59,5 +64,6 @@ class WatchMovieState extends Equatable {
     mediaEntity,
     isDetailPageLoading,
     isSeaching,
+    upcomingMoviesEntityCopy,
   ];
 }

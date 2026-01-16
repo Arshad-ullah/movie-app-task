@@ -45,7 +45,13 @@ class WatchMovieBloc extends Bloc<WatchMovieEvent, WatchMovieState> {
       },
       (success) {
         emit(
-          state.copyWith(status: Status.success, upcomingMoviesEntity: success),
+          state.copyWith(
+            status: Status.success,
+
+            upcomingMoviesEntity: success,
+
+            upcomingMoviesEntityCopy: success,
+          ),
         );
       },
     );
@@ -94,41 +100,48 @@ class WatchMovieBloc extends Bloc<WatchMovieEvent, WatchMovieState> {
     );
   }
 
+  // search button click
   FutureOr<void> _onSearchBtn(
     SearchButtonClickEvent event,
     Emitter<WatchMovieState> emit,
   ) {
-    emit(state.copyWith(isSeaching: !state.isSeaching));
+    emit(
+      state.copyWith(
+        upcomingMoviesEntity: state.upcomingMoviesEntityCopy,
+        isSeaching: !state.isSeaching,
+      ),
+    );
   }
 
+  // searching movie with title..
   FutureOr<void> _onSearching(
     SearchEvent event,
     Emitter<WatchMovieState> emit,
   ) {
-    final original = state.upcomingMoviesEntity;
-    final query = event.queryText.toLowerCase();
+    final original = state.upcomingMoviesEntityCopy;
+    if (original == null) return null;
 
-    // If query is empty, pass the original entity
+    final query = event.queryText.trim().toLowerCase();
+
     if (query.isEmpty) {
       emit(state.copyWith(upcomingMoviesEntity: original));
-
       return null;
     }
 
-    // Otherwise, filter movies by title
-    final filteredMovies = original!.movies
+    final filteredMovies = original.movies
         .where((movie) => movie.title.toLowerCase().contains(query))
         .toList();
 
-    // Create a new entity with filtered movies
-    final filteredUpcoming = UpcomingMoviesEntity(
-      dates: original.dates,
-      page: original.page,
-      movies: filteredMovies,
-      totalPages: original.totalPages,
-      totalResults: filteredMovies.length,
+    emit(
+      state.copyWith(
+        upcomingMoviesEntity: UpcomingMoviesEntity(
+          dates: original.dates,
+          page: original.page,
+          movies: filteredMovies,
+          totalPages: original.totalPages,
+          totalResults: filteredMovies.length,
+        ),
+      ),
     );
-
-    emit(state.copyWith(upcomingMoviesEntity: filteredUpcoming));
   }
 }
