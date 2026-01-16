@@ -27,9 +27,13 @@ class MovieListView extends StatelessWidget {
           return Center(
             child: Text(
               state.message,
-              style: TextStyle(fontSize: 16.sp, color: Colors.red),
+              style: TextStyle(fontSize: 16.sp, color: AppColor.kBlack202C43),
             ),
           );
+        }
+
+        if (state.upcomingMoviesEntity!.movies.isEmpty) {
+          return _NotfoundWidget();
         }
 
         // Success state: show movies
@@ -80,6 +84,24 @@ class MovieListView extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _NotfoundWidget extends StatelessWidget {
+  const _NotfoundWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        "Not found",
+        style: TextStyle(
+          color: AppColor.kBlack202C43,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

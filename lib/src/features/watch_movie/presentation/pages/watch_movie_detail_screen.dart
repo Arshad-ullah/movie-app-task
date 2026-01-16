@@ -12,6 +12,7 @@ import 'package:movie_app/src/features/watch_movie/domain/entities/upcoming_movi
 import 'package:movie_app/src/features/watch_movie/presentation/bloc/watch_movie_bloc.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/pages/trailer_play_screen.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/widgets/linear_gradient_widget.dart';
+import 'package:movie_app/src/features/watch_movie/presentation/widgets/media_builder.dart';
 import 'package:movie_app/src/features/watch_movie/presentation/widgets/movie_detail_bottom_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -37,7 +38,7 @@ class WatchMovieDetailScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     // bg imge..
-                    _BackgroundImageWdiget(),
+                    _BackgroundImageWidget(),
                     // bottom linear graident..
                     Align(
                       alignment: Alignment.bottomCenter,
@@ -144,20 +145,7 @@ class _HeaderWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BlocBuilder<WatchMovieBloc, WatchMovieState>(
-                buildWhen: (previous, current) =>
-                    previous.mediaEntity != current.mediaEntity,
-                builder: (context, state) {
-                  return CachedNetworkImage(
-                    imageUrl:
-                        ApiEndpoints.imgBaseUrl +
-                        state.mediaEntity!.logos.first.filePath,
-
-                    height: 30.h,
-                    width: 102.w,
-                  );
-                },
-              ),
+              _LogoWidget(),
 
               SizedBox(height: 6.h),
               Text(
@@ -247,19 +235,40 @@ class _HeaderWidget extends StatelessWidget {
   }
 }
 
-class _BackgroundImageWdiget extends StatelessWidget {
-  const _BackgroundImageWdiget({super.key});
+class _LogoWidget extends StatelessWidget {
+  const _LogoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WatchMovieBloc, WatchMovieState>(
-      buildWhen: (previous, current) =>
-          previous.mediaEntity != current.mediaEntity,
-      builder: (context, state) {
+    return MediaEntityBuilder(
+      builder: (context, media) {
+        if (media.logos.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
         return CachedNetworkImage(
-          imageUrl:
-              ApiEndpoints.imgBaseUrl +
-              state.mediaEntity!.posters.first.filePath,
+          imageUrl: ApiEndpoints.imgBaseUrl + media.logos.first.filePath,
+          height: 30.h,
+          width: 102.w,
+        );
+      },
+    );
+  }
+}
+
+class _BackgroundImageWidget extends StatelessWidget {
+  const _BackgroundImageWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaEntityBuilder(
+      builder: (context, media) {
+        if (media.posters.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return CachedNetworkImage(
+          imageUrl: ApiEndpoints.imgBaseUrl + media.posters.first.filePath,
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
               image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
@@ -268,7 +277,9 @@ class _BackgroundImageWdiget extends StatelessWidget {
           placeholder: (context, url) => Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
-            child: Container(decoration: BoxDecoration(color: Colors.grey)),
+            child: const DecoratedBox(
+              decoration: BoxDecoration(color: Colors.grey),
+            ),
           ),
         );
       },
