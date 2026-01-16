@@ -78,16 +78,34 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
   InkWell _doneButton() {
     return InkWell(
       onTap: _exitPlayer,
-
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12.r),
+      splashColor: AppColor.kBlue15D2BC.withValues(alpha: 0.3),
+      highlightColor: AppColor.kBlue15D2BC.withValues(alpha: 0.1),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Text(
-          'Done',
-          style: TextStyle(
-            color: AppColor.kWhite,
-            fontSize: 10.sp,
-            fontWeight: FontWeight.w500,
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColor.kBlue61C3F2, AppColor.kBlue15D2BC],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: AppColor.kBlue61C3F2.withValues(alpha: 0.4),
+              offset: const Offset(0, 4),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            'Done',
+            style: TextStyle(
+              color: AppColor.kWhite,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

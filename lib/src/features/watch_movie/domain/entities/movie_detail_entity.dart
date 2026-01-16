@@ -1,5 +1,7 @@
-import 'package:movie_app/src/features/watch_movie/data/models/movie_detail_model.dart';
+/// Domain Layer: Entities
+library;
 
+/// Movie Detail Video Entity
 class MovieDetailVideoEntity {
   final int? id;
   final List<MovieVideoEntity> results;
@@ -7,6 +9,7 @@ class MovieDetailVideoEntity {
   const MovieDetailVideoEntity({required this.id, required this.results});
 }
 
+/// Movie Video Entity
 class MovieVideoEntity {
   final String? iso6391;
   final String? iso31661;
@@ -31,19 +34,4 @@ class MovieVideoEntity {
     this.publishedAt,
     this.id,
   });
-}
-
-class MovieDetailVideoModel extends MovieDetailVideoEntity {
-  const MovieDetailVideoModel({required super.id, required super.results});
-
-  factory MovieDetailVideoModel.fromJson(Map<String, dynamic> json) {
-    return MovieDetailVideoModel(
-      id: json['id'],
-      results: json['results'] != null
-          ? List<MovieVideoModel>.from(
-              json['results'].map((x) => MovieVideoModel.fromJson(x)),
-            )
-          : [],
-    );
-  }
 }

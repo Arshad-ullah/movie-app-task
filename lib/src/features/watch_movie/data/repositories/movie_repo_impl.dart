@@ -32,7 +32,7 @@ class MovieRepoImpl implements MovieRepo {
     try {
       final model = await movieRemoteDatasource.getMovieDetail(movieId);
 
-      return Right(model);
+      return Right(model.toEntity());
     } on AppException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {
